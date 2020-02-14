@@ -68,7 +68,7 @@ class LaminasUserLoginWidgetTest extends TestCase
     public function testInvokeWithRender($option, $expect)
     {
         /**
-         * @var $viewModel \Laminas\View\Model\ViewModels
+         * @var $viewModel \Laminas\View\Model\ViewModel
          */
         $viewModel = null;
 

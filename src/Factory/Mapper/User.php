@@ -11,6 +11,7 @@ use Interop\Container\ContainerInterface;
 use LaminasUser\Mapper;
 use Laminas\ServiceManager\ServiceLocatorInterface;
 use Laminas\ServiceManager\Factory\FactoryInterface;
+use LaminasUser\Options\ModuleOptions;
 
 class User implements FactoryInterface
 {

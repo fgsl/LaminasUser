@@ -114,7 +114,7 @@ class DbTest extends TestCase
             ->method('read')
             ->will($this->returnValue(array('identity' => 'LaminasUser')));
 
-        $result = $this->db->authenticate($this->authEvent);
+        $result = $this->db->authenticateEvent($this->authEvent);
         $this->assertNull($result);
     }
 
@@ -140,7 +140,7 @@ class DbTest extends TestCase
 
         $this->db->setOptions($this->options);
 
-        $result = $this->db->authenticate($this->authEvent);
+        $result = $this->db->authenticateEvent($this->authEvent);
 
         $this->assertFalse($result);
         $this->assertFalse($this->db->isSatisfied());
@@ -177,7 +177,7 @@ class DbTest extends TestCase
         $this->db->setMapper($this->mapper);
         $this->db->setOptions($this->options);
 
-        $result = $this->db->authenticate($this->authEvent);
+        $result = $this->db->authenticateEvent($this->authEvent);
 
         $this->assertFalse($result);
         $this->assertFalse($this->db->isSatisfied());
@@ -211,7 +211,7 @@ class DbTest extends TestCase
         $this->db->setMapper($this->mapper);
         $this->db->setOptions($this->options);
 
-        $result = $this->db->authenticate($this->authEvent);
+        $result = $this->db->authenticateEvent($this->authEvent);
 
         $this->assertFalse($result);
         $this->assertFalse($this->db->isSatisfied());
@@ -260,7 +260,7 @@ class DbTest extends TestCase
         $this->db->setMapper($this->mapper);
         $this->db->setOptions($this->options);
 
-        $this->db->authenticate($this->authEvent);
+        $this->db->authenticateEvent($this->authEvent);
     }
 
     /**
@@ -313,7 +313,7 @@ class DbTest extends TestCase
         $this->db->setMapper($this->mapper);
         $this->db->setOptions($this->options);
 
-        $this->db->authenticate($this->authEvent);
+        $this->db->authenticateEvent($this->authEvent);
     }
 
     /**

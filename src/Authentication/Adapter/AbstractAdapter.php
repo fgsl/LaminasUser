@@ -7,8 +7,9 @@
 namespace LaminasUser\Authentication\Adapter;
 
 use Laminas\Authentication\Storage;
+use Laminas\Authentication\Adapter\AdapterInterface;
 
-abstract class AbstractAdapter implements ChainableAdapter
+abstract class AbstractAdapter implements ChainableAdapter, AdapterInterface
 {
     /**
      * @var Storage\StorageInterface

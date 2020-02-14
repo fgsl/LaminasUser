@@ -6,15 +6,15 @@
  */
 namespace LaminasUserTest\Authentication\Adapter;
 
-use Laminas\EventManager\EventInterface;
-use Laminas\EventManager\EventManagerInterface;
-use Laminas\EventManager\SharedEventManagerInterface;
 use LaminasUser\Authentication\Adapter\AdapterChain;
 use LaminasUser\Authentication\Adapter\AdapterChainEvent;
-use Laminas\Stdlib\RequestInterface;
+use Laminas\EventManager\ResponseCollection;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
-use Laminas\EventManager\ResponseCollection;
+use Laminas\EventManager\EventManagerInterface;
+use Laminas\EventManager\SharedEventManagerInterface;
+use Laminas\EventManager\EventInterface;
+use Laminas\Stdlib\RequestInterface;
 
 class AdapterChainTest extends TestCase
 {

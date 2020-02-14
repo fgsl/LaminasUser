@@ -15,7 +15,7 @@ interface ChainableAdapter
      * @param AdapterChainEvent $e
      * @return bool
      */
-    public function authenticate(AdapterChainEvent $e);
+    public function authenticateEvent(AdapterChainEvent $e);
 
     /**
      * @return StorageInterface

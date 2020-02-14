@@ -36,6 +36,9 @@ class Db extends AbstractAdapter
      * @var ModuleOptions
      */
     protected $options;
+    
+    /** @var AdapterChainEvent **/
+    protected $e;
 
     /**
      * Called when user id logged out
@@ -45,23 +48,33 @@ class Db extends AbstractAdapter
     {
         $this->getStorage()->clear();
     }
-
+    
     /**
      * @param AdapterChainEvent $e
      * @return bool
      */
-    public function authenticate(AdapterChainEvent $e)
+    public function authenticateEvent(AdapterChainEvent $e)
+    {
+        $this->e = $e;
+        return $this->authenticate();
+    }
+    
+    /**
+     * @param AdapterChainEvent $e
+     * @return bool
+     */
+    public function authenticate()
     {
         if ($this->isSatisfied()) {
             $storage = $this->getStorage()->read();
-            $e->setIdentity($storage['identity'])
+            $this->e->setIdentity($storage['identity'])
               ->setCode(AuthenticationResult::SUCCESS)
               ->setMessages(array('Authentication successful.'));
             return;
         }
 
-        $identity   = $e->getRequest()->getPost()->get('identity');
-        $credential = $e->getRequest()->getPost()->get('credential');
+        $identity   = $this->e->getRequest()->getPost()->get('identity');
+        $credential = $this->e->getRequest()->getPost()->get('credential');
         $credential = $this->preProcessCredential($credential);
         /** @var UserInterface|null $userObject */
         $userObject = null;
@@ -81,7 +94,7 @@ class Db extends AbstractAdapter
         }
 
         if (!$userObject) {
-            $e->setCode(AuthenticationResult::FAILURE_IDENTITY_NOT_FOUND)
+            $this->e->setCode(AuthenticationResult::FAILURE_IDENTITY_NOT_FOUND)
               ->setMessages(array('A record with the supplied identity could not be found.'));
             $this->setSatisfied(false);
             return false;
@@ -90,7 +103,7 @@ class Db extends AbstractAdapter
         if ($this->getOptions()->getEnableUserState()) {
             // Don't allow user to login if state is not in allowed list
             if (!in_array($userObject->getState(), $this->getOptions()->getAllowedLoginStates())) {
-                $e->setCode(AuthenticationResult::FAILURE_UNCATEGORIZED)
+                $this->e->setCode(AuthenticationResult::FAILURE_UNCATEGORIZED)
                   ->setMessages(array('A record with the supplied identity is not active.'));
                 $this->setSatisfied(false);
                 return false;
@@ -101,7 +114,7 @@ class Db extends AbstractAdapter
         $bcrypt->setCost($this->getOptions()->getPasswordCost());
         if (!$bcrypt->verify($credential, $userObject->getPassword())) {
             // Password does not match
-            $e->setCode(AuthenticationResult::FAILURE_CREDENTIAL_INVALID)
+            $this->e->setCode(AuthenticationResult::FAILURE_CREDENTIAL_INVALID)
               ->setMessages(array('Supplied credential is invalid.'));
             $this->setSatisfied(false);
             return false;
@@ -112,14 +125,14 @@ class Db extends AbstractAdapter
         $session->getManager()->regenerateId();
 
         // Success!
-        $e->setIdentity($userObject->getId());
+        $this->e->setIdentity($userObject->getId());
         // Update user's password hash if the cost parameter has changed
         $this->updateUserPasswordHash($userObject, $credential, $bcrypt);
         $this->setSatisfied(true);
         $storage = $this->getStorage()->read();
-        $storage['identity'] = $e->getIdentity();
+        $storage['identity'] = $this->e->getIdentity();
         $this->getStorage()->write($storage);
-        $e->setCode(AuthenticationResult::SUCCESS)
+        $this->e->setCode(AuthenticationResult::SUCCESS)
           ->setMessages(array('Authentication successful.'));
     }
 
