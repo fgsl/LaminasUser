@@ -53,7 +53,7 @@ Installation
 
     ```json
     "require": {  
-        "fgsl/laminas-user": "^3.0"  
+        "fgsl/laminas-user": "^0.2.0"  
     }  
     ```
 
