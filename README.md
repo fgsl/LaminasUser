@@ -6,7 +6,7 @@ Created by Flávio Gomes da Silva Lisboa from ZfcUser
 Introduction
 ------------
 
-Laminas is a user registration and authentication module for Laminas.
+LaminasUser is a user registration and authentication module for Laminas.
 Out of the box, LaminasUser works with Laminas\Db, however alternative storage adapter
 modules are available (see below). LaminasUser provides the foundations for adding
 user authentication and registration to your Laminas site. It is designed to be very
@@ -65,17 +65,17 @@ Installation
 
 #### Post installation
 
-1. Enabling it in your `application.config.php`file.
+1. Enabling it in your `modules.config.php`file.
 
     ```php
     <?php
-    return array(
-        'modules' => array(
+    return [
+        'modules' => [
             // ...
             'LaminasUser',
-        ),
+        ],
         // ...
-    );
+    ];
     ```
 
 2. Then Import the SQL schema located in `./vendor/zf-commons/laminas-user/data/schema.sql` (if you installed using the Composer) or in `./vendor/LaminasUser/data/schema.sql`.
@@ -87,20 +87,20 @@ Installation
 
 ```php
 <?php
-return array(
-    'db' => array(
+return [
+    'db' => [
         'driver'    => 'PdoMysql',
         'hostname'  => 'changeme',
         'database'  => 'changeme',
         'username'  => 'changeme',
         'password'  => 'changeme',
-    ),
-    'service_manager' => array(
-        'factories' => array(
+    ],
+    'service_manager' => [
+        'factories' => [
             'Laminas\Db\Adapter\Adapter' => 'Laminas\Db\Adapter\AdapterServiceFactory',
-        ),
-    ),
-);
+        ],
+    ],
+];
 
 ```
 
@@ -194,33 +194,33 @@ module.config.php, or a dedicated recaptcha.config.php):
 
     <?php
     // ./config/autoload/recaptcha.config.php
-    return array(
-        'di'=> array(
-            'instance'=>array(
-                'alias'=>array(
+    return [
+        'di'=> [
+            'instance'=> [
+                'alias'=> [
                     // OTHER ELEMENTS....
                     'recaptcha_element' => 'Laminas\Form\Element\Captcha',
-                ),
-                'recaptcha_element' => array(
-                    'parameters' => array(
+                ],
+                'recaptcha_element' => [
+                    'parameters' => [
                         'spec' => 'captcha',
-                        'options'=>array(
+                        'options'=> [
                             'label'      => '',
                             'required'   => true,
                             'order'      => 500,
-                            'captcha'    => array(
+                            'captcha'    => [
                                 'captcha' => 'ReCaptcha',
                                 'privkey' => RECAPTCHA_PRIVATE_KEY,
                                 'pubkey'  => RECAPTCHA_PUBLIC_KEY,
-                            ),
-                        ),
-                    ),
-                ),
-                'LaminasUser\Form\Register' => array(
-                    'parameters' => array(
+                            ],
+                        ],
+                    ],
+                ],
+                'LaminasUser\Form\Register' => [
+                    'parameters' => [
                         'captcha_element'=>'recaptcha_element',
-                    ),
-                ),
-            ),
-        ),
-    );
+                    ],
+                ],
+            ],
+        ],
+    ];
