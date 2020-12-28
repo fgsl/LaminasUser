@@ -18,10 +18,10 @@ use Laminas\ServiceManager\ServiceLocatorInterface;
 
 class UserController extends AbstractActionController
 {
-    const ROUTE_CHANGEPASSWD = 'LaminasUser/changepassword';
-    const ROUTE_LOGIN        = 'LaminasUser/login';
-    const ROUTE_REGISTER     = 'LaminasUser/register';
-    const ROUTE_CHANGEEMAIL  = 'LaminasUser/changeemail';
+    const ROUTE_CHANGEPASSWD = 'laminasuser/changepassword';
+    const ROUTE_LOGIN        = 'laminasuser/login';
+    const ROUTE_REGISTER     = 'laminasuser/register';
+    const ROUTE_CHANGEEMAIL  = 'laminasuser/changeemail';
 
     const CONTROLLER_NAME    = 'LaminasUser';
 
